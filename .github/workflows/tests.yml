@@ -1,0 +1,49 @@
+name: Test cask
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash -xeuo pipefail {0}
+
+jobs:
+  cask:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, ubuntu-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@4790763c0a3ba4036f72634dc079c4a7dfcd4878 # 2026.10.19.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - run: brew style 0xerwin1/dbflux
+
+      - run: brew audit --cask --strict --online 0xerwin1/dbflux/dbflux
+
+      - run: brew install --cask 0xerwin1/dbflux/dbflux
+
+      - name: Check the macOS install
+        if: runner.os == 'macOS'
+        run: |
+          test -d /Applications/DBFlux.app
+          if xattr -p com.apple.quarantine /Applications/DBFlux.app 2>/dev/null; then
+            echo "::error::DBFlux.app still carries the quarantine attribute"
+            exit 1
+          fi
+
+      - name: Check the Linux install
+        if: runner.os == 'Linux'
+        run: test -x "$(brew --prefix)/bin/dbflux"
+
+      - run: brew uninstall --cask 0xerwin1/dbflux/dbflux
