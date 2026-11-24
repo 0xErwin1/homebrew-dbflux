@@ -1,11 +1,11 @@
 cask "dbflux" do
   arch arm: "arm64", intel: "amd64"
 
-  version "0.11.0"
-  sha256 arm:          "743b386969fbb11148912ffb216764980a91c2f8881b9fe7fceaf6b5fd558ffd",
-         intel:        "4baa2bd46e10ae8b063ae60680c8b3db9b2069360b04dfd1880ab2294b54823e",
-         arm64_linux:  "03e2eec0a3c1a28baf872ff3dc61431fd5728d02ea93f9acef28a18b02b999d0",
-         x86_64_linux: "946d00aa1f16f6d844ef596dbe98f0a27acfb6ff899b17896ef4ca82bcb6d091"
+  version "0.11.1"
+  sha256 arm:          "e5d05859adf2b9cd0483168d3aa67ffd6a097dee1b8441fd6a5179db94e7db14",
+         intel:        "ae7875a55d0ce1f4aa3adf8c2052bee6ce4cd81d68dbcd2d85224d4ff8cf4a7e",
+         arm64_linux:  "6d6d6ff6d33fd4e7285796a5b0ac6a9fa91a7a595cf7a1ed029dffaa3530267f",
+         x86_64_linux: "ddf6bd82693c9971e64ce9bb89c8db71480f89f65d264ebfb24711e39cca5aef"
 
   on_macos do
     url "https://github.com/0xErwin1/dbflux/releases/download/v#{version}/dbflux-macos-#{arch}.dmg"
